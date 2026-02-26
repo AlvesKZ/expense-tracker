@@ -7,10 +7,10 @@ const filePath = "./expenses.csv";
 const csvWriter = createCsvWriter({
   path: filePath,
   header: [
-    { id: "id", title: "ID" },
-    { id: "amount", title: "Amount" },
-    { id: "description", title: "Description" },
-    { id: "date", title: "Date" },
+    { id: "id", title: "id" },
+    { id: "amount", title: "amount" },
+    { id: "description", title: "description" },
+    { id: "date", title: "date" },
   ],
   append: true,
 });
@@ -38,14 +38,14 @@ class CSV {
 
   static async readById(id) {
     const expenses = await this.readAll();
-    return expenses.find((expense) => expense.ID === String(id));
+    return expenses.find((expense) => expense.id === String(id));
   }
 
   static update() {}
 
   static createFile() {
     if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, "ID,Amount,Description,Date\n");
+      fs.writeFileSync(filePath, "id,amount,description,date\n");
     }
   }
 }

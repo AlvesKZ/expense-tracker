@@ -35,4 +35,10 @@ program.command('update')
   .action((option) => {
   });
 
+program.command('summary')
+  .description('summary all expenses')
+  .action(() => {
+    expense.summary();
+  });
+
 program.parse();
