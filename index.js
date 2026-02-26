@@ -18,4 +18,10 @@ program.command('add')
     expense.add(options.amount, options.description);
   });
 
+program.command('list')
+  .description('list expenses')
+  .action(() => {
+    expense.readAll();
+  });
+
 program.parse();

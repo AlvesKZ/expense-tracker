@@ -1,14 +1,5 @@
-const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+const csv = require('./CSV');
 
-const csvWriter = createCsvWriter({
-  path: "expenses.csv",
-  append: true,
-  header: [
-    { id: "id", title: "ID" },
-    { id: "amount", title: "Amount" },
-    { id: "description", title: "Description" },
-  ],
-});
 
 class Expense {
 
@@ -16,10 +7,11 @@ class Expense {
     console.log(amount, description);
     const id = this.generateId()
     const data = [{ id, amount, description }];
-    csvWriter.writeRecords(data)
-        .then(() => {
-        console.log("Expense added successfully");
-    });
+    csv.add(data);
+  }
+
+  readAll() {
+    csv.readAll();
   }
 
   generateId() {
