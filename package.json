@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/AlvesKZ/expense-tracker#readme",
   "dependencies": {
-    "commander": "^14.0.3"
+    "commander": "^14.0.3",
+    "csv-writer": "^1.6.0"
   }
 }
