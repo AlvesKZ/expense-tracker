@@ -27,6 +27,14 @@ class Expense {
     this.printExpense(expense);
   }
 
+  async update(id, data) {
+    await csv.update(id, data);
+  }
+
+  async delete(id) {
+    await csv.delete(id);
+  }
+
   async summary() {
     let total = 0;
 

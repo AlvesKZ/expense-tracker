@@ -15,6 +15,16 @@ const csvWriter = createCsvWriter({
   append: true,
 });
 
+const csvUpdater = createCsvWriter({
+  path: filePath,
+  header: [
+    { id: "id", title: "id" },
+    { id: "amount", title: "amount" },
+    { id: "description", title: "description" },
+    { id: "date", title: "date" },
+  ],
+});
+
 class CSV {
   static add(data) {
     this.createFile();
@@ -37,11 +47,47 @@ class CSV {
   }
 
   static async readById(id) {
+    this.createFile();
     const expenses = await this.readAll();
     return expenses.find((expense) => expense.id === String(id));
   }
 
-  static update() {}
+  static async update(id, data) {
+    const expense = await this.readById(id);
+    if (!expense) {
+      console.log(`# Expense ${id} not found`);
+      return;
+    }
+
+    const expenses = await this.readAll();
+    const updated = expenses.map((e) => {
+      if (e.id === String(id)) {
+        return {
+          ...e,
+          ...(data.description && { description: data.description }),
+          ...(data.amount && { amount: data.amount }),
+        };
+      }
+      return e;
+    });
+
+    await csvUpdater.writeRecords(updated);
+    console.log(`# Expense ${id} updated successfully`);
+  }
+
+  static async delete(id) {
+    const expense = await this.readById(id);
+    if (!expense) {
+      console.log(`# Expense ${id} not found`);
+      return;
+    }
+
+    const expenses = await this.readAll();
+    const filtered = expenses.filter((e) => e.id !== String(id));
+
+    await csvUpdater.writeRecords(filtered);
+    console.log(`# Expense ${id} deleted successfully`);
+  }
 
   static createFile() {
     if (!fs.existsSync(filePath)) {

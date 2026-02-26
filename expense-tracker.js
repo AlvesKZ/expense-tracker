@@ -18,7 +18,7 @@ program.command('add')
     expense.add(options.amount, options.description);
   });
 
-program.command('list')
+program.command('view')
   .description('list expenses')
   .option('-i, --id <id>', 'find expense by id')
   .action((option) => {
@@ -32,7 +32,17 @@ program.command('list')
 program.command('update')
   .description('update an expense')
   .option('-i, --id <id>', 'find expense by id')
+  .option('-a, --amount <amount>', 'enter the amount')
+  .option('-d, --description <description>', 'enter the expense description')
   .action((option) => {
+    expense.update(option.id, option)
+  });
+
+  program.command('delete')
+  .description('delete an expense')
+  .option('-i, --id <id>', 'find expense by id')
+  .action((option) => {
+    expense.delete(option.id, option)
   });
 
 program.command('summary')
