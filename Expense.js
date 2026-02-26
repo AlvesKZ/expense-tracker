@@ -46,6 +46,35 @@ class Expense {
     console.log(`# Total expenses: $${total}`);
   }
 
+  async summaryByMonth(month) {
+    const expenses = await csv.readAll();
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const filtered = expenses.filter((expense) => {
+      const expenseMonth = new Date(expense.date).getMonth() + 1;
+      return expenseMonth === Number(month);
+    });
+
+    const total = filtered.reduce(
+      (sum, expense) => sum + Number(expense.amount),
+      0,
+    );
+    console.log(`# Total expenses for ${months[month - 1]}: $${total}`);
+  }
+
   printExpense(expense) {
     const id = String(expense.id).padEnd(4);
     const date = String(expense.date).padEnd(12);
@@ -56,7 +85,7 @@ class Expense {
 
   printHeader() {
     console.log(
-      `# ${"ID".padEnd(4)} ${"Date".padEnd(12)} ${"Description".padEnd(22)} ${"Amount".padEnd(10)}`
+      `# ${"ID".padEnd(4)} ${"Date".padEnd(12)} ${"Description".padEnd(22)} ${"Amount".padEnd(10)}`,
     );
   }
 
