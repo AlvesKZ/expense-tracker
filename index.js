@@ -12,7 +12,7 @@ program
 
 program.command('add')
   .description('add an new expense')
-  .option('-a, --amount <amount>', 'separator character')
+  .option('-a, --amount <amount>', 'enter the amount')
   .option('-d, --description <description>', 'enter the expense description')
   .action((options) => {
     expense.add(options.amount, options.description);
@@ -20,8 +20,19 @@ program.command('add')
 
 program.command('list')
   .description('list expenses')
-  .action(() => {
-    expense.readAll();
+  .option('-i, --id <id>', 'find expense by id')
+  .action((option) => {
+    if (option.id) {
+      expense.readById(option.id);
+    } else {
+      expense.readAll();
+    }
+  });
+
+program.command('update')
+  .description('update an expense')
+  .option('-i, --id <id>', 'find expense by id')
+  .action((option) => {
   });
 
 program.parse();

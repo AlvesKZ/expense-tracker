@@ -9,27 +9,41 @@ class Expense {
   }
 
   async readAll() {
-    const results = await csv.readAll();
+    const expenses = await csv.readAll();
 
-    console.log(
-      `# ${"ID".padEnd(4)} ${"Date".padEnd(12)} ${"Description".padEnd(22)} ${"Amount".padEnd(10)}`,
-    );
+    this.printHeader()
 
-    results.map((expense) => {
-      const id = String(expense.ID).padEnd(4);
-      const date = String(expense.Date).padEnd(12);
-      const description = String(expense.Description).padEnd(22);
-      const amount = String(expense.Amount).padEnd(10);
-      console.log(`# ${id} ${date} ${description} ${amount}`);
+    expenses.map((expense) => {
+      this.printExpense(expense);
     });
   }
 
+  async readById(id) {
+    this.printHeader();
+    const expense = await csv.readById(id);
+    this.printExpense(expense);
+  }
+
+  printExpense(expense) {
+    const id = String(expense.ID).padEnd(4);
+    const date = String(expense.Date).padEnd(12);
+    const description = String(expense.Description).padEnd(22);
+    const amount = String(expense.Amount).padEnd(10);
+    console.log(`# ${id} ${date} ${description} ${amount}`);
+  }
+
+  printHeader() {
+    console.log(
+      `# ${"ID".padEnd(4)} ${"Date".padEnd(12)} ${"Description".padEnd(22)} ${"Amount".padEnd(10)}`,
+    );
+  }
+
   async generateId() {
-    const results = await csv.readAll();
+    const expenses = await csv.readAll();
 
-    if (results.length === 0) return 1;
+    if (expenses.length === 0) return 1;
 
-    const maxId = Math.max(...results.map((expense) => Number(expense.ID)));
+    const maxId = Math.max(...expenses.map((expense) => Number(expense.ID)));
     return maxId + 1;
   }
 }
